@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} - {{ SITENAME }}{% endblock %}
+
+{% block content %}
+<article>
+  <h1>{{ article.title }}</h1>
+  <span class="s95">
+    {{ article.author }} <span class="rpad"></span> {{ article.date }}
+    <span class="rpad"></span>
+    {% for tag in article.tags %}
+    #<a href="{{ SITEURL }}/tag/{{ tag }}">{{ tag }}</a>
+    {% endfor %}
+    {% if PLUGINS and 'minchin.pelican.plugins.post_stats' in PLUGINS %}
+    <span title="~{{ article.stats['wc'] }} words">
+      ~{{ article.stats['read_mins'] }} min read &#8226;
+    </span>
+    <span title="{{ article.stats['fi'] }} min">
+      Flesch-kincaid Index/ Reading Ease: {{ article.stats['fi'] }}
+    </span>
+    <span title="{{ article.stats['fi'] }} min">
+      Level: {{ article.stats['fk'] }}
+    </span>
+    {% endif %}
+  </span>
+
+
+  
+  {{ article.content }}
+  
+  <nav>
+    <div>
+      {% if article.prev_article %}
+      <a href="{{ SITEURL }}/{{ article.prev_article.url }}">‹ {{ article.prev_article.title }}</a>
+      {% endif %}
+    </div>
+    <div>
+      {% if article.next_article %}
+      <a href="{{ SITEURL }}/{{ article.next_article.url }}">{{ article.next_article.title }} ›</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  {% if article.related_posts %}
+  <h3>Related Posts</h3>
+      {% for related_post in article.related_posts %}
+      <nav>
+        <dl>
+          {% for related_post in article.related_posts %}
+          <dt><h4><a href="{{ SITEURL }}/{{ related_post.url }}">{{ related_post.title }}</a></h4></dt>
+          <dd><span class="smallprint">{{ related_post.meta_description }}</span></dd>
+      {% endfor %}
+      </dl>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</article>
+
+<div class="sblock">
+  {% if article.series %}
+  <div class="blockdiv">
+    <small class="b s150">This post is part {{ article.series.index }} of the {{ article.series.all|length }} part "{{ article.series.name }}" series:</small>
+    <ol>
+      {% for part_article in article.series.all %}
+      <li {% if part_article == article %}class="active"{% endif %}>
+        {% if part_article == article %}
+        {{ part_article.title }}
+        {% else %}
+        <a href="{{ SITEURL }}/{{ part_article.url }}">{{ part_article.title }}</a>
+        {% endif %}
+      </li>
+      {% if loop.index == 3 %}
+      </ol>
+      <details>
+        <summary>More...</summary>
+        <div class="hidden_li">
+        <ol>
+      {% endif %}
+      {% endfor %}
+      {% if article.series.all|length > 3 %}
+        </ol>
+        </div>
+      </details>
+      {% endif %}
+    </ol>
+  </div>
+  {% endif %}
+
+  {% if article.toc %}
+  <div class="blockdiv sticky">
+    <a class="b s150" href="#">Index</a>
+    {{ article.toc }}
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

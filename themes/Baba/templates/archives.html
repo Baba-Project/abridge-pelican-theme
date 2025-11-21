@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block title %} Archives | {{ SITENAME }} {%
+endblock %} {% block content %}
+<div>
+  {% for year, articles in dates|groupby("date.year") %}
+  <h2>{{ year }}</h2>
+  {% for article in articles %}
+  <p>
+    <a
+      href="/{{ article.url }}"
+      rel="bookmark"
+      title="Permalink to {{ article.title|striptags }}"
+    >
+      {{ article.title }}
+    </a>
+    -
+    <time
+      class="published"
+      title="{{ article.date.isoformat() }}"
+      datetime="{{ article.date.isoformat() }}"
+    >
+      {{ article.date.strftime("%d %B %Y, %H:%M") }}
+    </time>
+  </p>
+  {% endfor %} {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,3 @@
+{% extends "archives.html" %} {% block title %} {{ super() }} - {{ period |
+reverse | join(' ') }} {% endblock %} {% block content_title %} Posts from {{
+period | reverse | join(" ") }} {% endblock %}

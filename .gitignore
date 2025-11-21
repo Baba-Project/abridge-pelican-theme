@@ -1,0 +1,12 @@
+.idea/
+__pycache__/
+output/
+.DS_Store
+*.py[cod]
+published_output/*
+output/*
+cache/*
+*.py[cod]
+*.pid
+published_output_jampack/*
+.jampack/*

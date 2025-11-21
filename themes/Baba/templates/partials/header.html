@@ -1,0 +1,81 @@
+<header>
+  <nav>
+    <div>
+      <h1>
+        <a href="{{ SITEURL }}" title="{{ SITENAME }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            stroke="#f90"
+            viewBox="0 0 96 96"
+            width="28"
+            height="28"
+          >
+            <path stroke-width="14" d="M14 99 46 7h4l32 92"></path>
+            <path stroke-width="9" d="M-3 82c43-26 59-26 102 0"></path>
+            <path
+              stroke-linecap="round"
+              stroke-width="1.5"
+              d="M94 72v7m-5-9.8v7m-5-9.8v7.1M79 64v7M63 57.7v7m-5-8.2v7m-5-7.8v7m-5-7.2v7m-5-6.7v7m-5-6.3v7m-5-5.8v7M17 64v7m-5-4.6v7m-5-4.2v7M2 72v7"
+            ></path>
+          </svg>
+          {{ SITENAME }}
+        </a>
+      </h1>
+    </div>
+    <div>
+      {% if MAIN_MENU %}
+      <ul>
+        <li><a class="s110" href="{{ SITEURL }}/">{{ _('Home') }}</a></li>
+        {% for title, link in MENUITEMS %}
+        <li><a class="s110" href="{{ link }}">{{ _(title) }}</a></li>
+        {% endfor %} {% if FEED_ALL_ATOM %}
+        <li>
+          <a class="s110" href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}"
+            >{{ _('Atom') }}</a
+          >
+        </li>
+        {% endif %} {% if FEED_ALL_RSS %}
+        <li>
+          <a class="s110" href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}"
+            >{{ _('RSS') }}</a
+          >
+        </li>
+        {% endif %}
+      </ul>
+      <ul>
+        <li>
+          <div class="dropdown">
+            <i class="svgs world" type="reset"></i>
+            <div class="dropdown-content">
+              <span>English</span>
+              <a href="{{ SITEURL }}/fr/">Français</a>
+              <a href="{{ SITEURL }}/pt/">Português</a>
+              <a href="{{ SITEURL }}/es/">Español</a>
+            </div>
+          </div>
+        </li>
+        <li><i type="reset" id="mode" class="js svgs adjust"></i></li>
+      </ul>
+      {% endif %}
+      <form autocomplete="off" class="js" name="goSearch" id="searchbox">
+        <div class="searchd">
+          <input
+            id="searchinput"
+            type="text"
+            placeholder="Search"
+            title="Search"
+          />
+          <button
+            type="submit"
+            title="Search"
+            class="svgs svgm search"
+          ></button>
+        </div>
+        <div class="results">
+          <div id="suggestions"></div>
+        </div>
+      </form>
+    </div>
+  </nav>
+</header>

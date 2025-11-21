@@ -1,0 +1,104 @@
+{% extends "base.html" %} {% block title %}{{ SITENAME }} - Home{% endblock %}
+{% block content %} {% if GOOGLE_ADSENSE and GOOGLE_ADSENSE.ads.index_top %}
+<script
+  async
+  src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+></script>
+<ins
+  class="adsbygoogle ads-responsive"
+  data-ad-client="{{ GOOGLE_ADSENSE.ca_id }}"
+  data-ad-slot="{{ GOOGLE_ADSENSE.ads.index_top }}"
+></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+{% endif %}
+
+<div>
+  {% for article in articles_page.object_list %}
+  <article>
+    <h1>
+      <span class="s85">
+        <a
+          href="{{ SITEURL }}/{{ article.url }}{% if not DISABLE_URL_HASH %}#{{ article.slug }}{% endif %}"
+        >
+          {{ article.title }}
+        </a>
+      </span>
+    </h1>
+    <div class="sum">
+      <p>
+        {{ article.summary }}
+        <a href="{{ SITEURL }}/{{ article.url }}">...more</a>
+      </p>
+    </div>
+    <span class="s90">
+      {{ _('Posted on %(when)s in %(category)s', when=article.locale_date,
+      category='<a href="%s/%s">%s</a>'|format(SITEURL, article.category.url,
+      article.category)|safe) }}
+      <span class="rpad"></span>
+      {% if article.tags and not HOME_HIDE_TAGS %} &#8226; {{ _('Tagged with')
+      }} {% for tag in article.tags %} #<a href="{{ SITEURL }}/{{ tag.url }}"
+        >{{ tag }}</a
+      >{% if not loop.last %},{% endif %} {% endfor %} {% endif %}
+    </span>
+  </article>
+  {% endfor %} {% if articles_page and articles_paginator.num_pages > 1 %} {% if
+  USE_PAGER %}
+  <ul class="pager">
+    {% if articles_page.has_previous() %}
+    <li class="previous">
+      <a href="{{ SITEURL }}/{{ articles_previous_page.url }}"
+        >&larr; {{ _('Newer') }}</a
+      >
+    </li>
+    {% else %}
+    <li class="previous disabled"><a href="#">&larr; {{ _('Newer') }}</a></li>
+    {% endif %} {% if articles_page.has_next() %}
+    <li class="next">
+      <a href="{{ SITEURL }}/{{ articles_next_page.url }}"
+        >{{ _('Older') }} &rarr;</a
+      >
+    </li>
+    {% else %}
+    <li class="next disabled"><a href="#">{{ _('Older') }} &rarr;</a></li>
+    {% endif %}
+  </ul>
+  {% else %}
+  <nav class="vpad">
+    {% if articles_page.has_previous() %}
+    <a class="inp on" href="{{ SITEURL }}/{{ articles_previous_page.url }}"
+      >&laquo;</a
+    >
+    {% else %}
+    <a class="inp on disabled" href="#">&laquo;</a>
+    {% endif %} {% for num in range(1, 1 + articles_paginator.num_pages) %}
+    <a
+      class="inp on{% if num == articles_page.number %} cnav{% endif %}"
+      href="{{ SITEURL }}/{{ articles_paginator.page(num).url }}"
+      >{{ num }}</a
+    >
+    {% endfor %} {% if articles_page.has_next() %}
+    <a class="inp on" href="{{ SITEURL }}/{{ articles_next_page.url }}"
+      >&raquo;</a
+    >
+    {% else %}
+    <a class="inp on disabled" href="#">&raquo;</a>
+    {% endif %}
+  </nav>
+  {% endif %} {% endif %}
+</div>
+
+<div class="sblock">
+  <div class="blockdiv sticky">
+    <span class="b s150">Recent</span>
+    {% for article in articles[:5] %}
+    <!-- Son 5 gönderiyi gösterir -->
+    <div class="tpad">
+      <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
